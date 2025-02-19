@@ -70,3 +70,14 @@ rm -f $PRIVATE_KEY_PATH $PUBLIC_KEY_PATH
 ```
 - ```chmod +x```
 - ```bash```
+
+> ```sh
+> # неточно сбрасывается после перезагрузки:
+> sudo pfctl -s nat
+> # echo "nat on en0 from 10.7.0.2/24 to any -> (en0)" | sudo pfctl -ef -
+> #
+> # точно сбрасывается после перезагрузки:
+> sysctl net.inet.ip.forwarding
+> # sudo sysctl -w net.inet.ip.forwarding=1
+> ```
+
