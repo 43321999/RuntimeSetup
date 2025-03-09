@@ -2,7 +2,7 @@
 >## Runtime setup:
 >- [distribution](distribution/README.md)
 ## Cluster setup:
-- [vpn](wireguard/README.md)
+- [net](wireguard/README.md)
 >- [mnt](mnt/README.md)
 >- [virtualization](docker/README.md)
 >- [orchestrator](swarm/README.md)
