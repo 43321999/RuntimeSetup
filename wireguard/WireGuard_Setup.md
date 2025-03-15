@@ -12,7 +12,7 @@ sudo apt install wireguard
 
 ## Шаг 2. Настройка узлов
 
-### Узел `01`
+### Узел `ba`
 
 Создайте файл `/etc/wireguard/fd01.conf`:
 ```ini
