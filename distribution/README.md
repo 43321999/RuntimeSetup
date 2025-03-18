@@ -27,11 +27,26 @@ Graphic installation:
     - [x] standard system utilities
   - GRUB boot loader: sda
 ```shell
-sudo su
-apt update
-apt install openssh-server
-vi /etc/ssh/sshd_config
-# setup port 1025
+su -
+apt update & apt install openssh-server
+```
+### remote connect and setup ssh
+- ssh connect and run
+```sh
+# setup port 1024
+ sed -i 's/^#\?Port 22/Port 1024/' /etc/ssh/sshd_config & systemctl restart sshd
+```
+```sh
+# Генерация SSH-ключа
+# ssh-keygen -t rsa
+
+# Копирование публичного ключа на удаленный сервер
+ssh-copy-id -i ~/.ssh/id_rsa.pub 192.168.0.6
+
+# Настройка прав доступа
+# chmod 700 ~/.ssh
+# chmod 644 ~/.ssh/id_rsa.pub
+# chmod 600 ~/.ssh/id_rsa
 ```
 ```shell
 apt update
