@@ -41,7 +41,7 @@ apt update & apt install openssh-server
 # ssh-keygen -t rsa
 
 # Копирование публичного ключа на удаленный сервер
-ssh-copy-id -i ~/.ssh/id_rsa.pub 192.168.0.6
+ssh-copy-id -i ~/.ssh/id_rsa.pub 10.2
 
 # Настройка прав доступа
 # chmod 700 ~/.ssh
