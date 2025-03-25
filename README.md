@@ -1,14 +1,17 @@
 # Парное программирование с copilot
 >## Runtime setup:
 >- [distribution](distribution/README.md)
+>- [profiles](profiles/README.md)
 ## Cluster setup:
 - [net](wireguard/README.md)
 >- [mnt](mnt/README.md)
 >- [virtualization](docker/README.md)
 >- [orchestrator](swarm/README.md)
->- [base image](nodejs/README.md)
+## Runtime again:
+>- [ssh](ssh/README.md)
 >  - svelte
 >## Microservices:
+>- [base image](nodejs/README.md)
 >- [IDE](vscode/README.md)
 >- [registry](https://github.com/43321999/RuntimeSetup#registry-service)
 >- [post](postfix/README.md)
