@@ -1,0 +1,30 @@
+---
+- hosts: localhost
+  vars_files:
+    - "{{ playbook_dir }}/vars.yml"
+
+  tasks:
+    - name: Сохранить пароль для расшифровки в файл
+      ansible.builtin.copy:
+        content: "{{ password }}"
+        dest: "/tmp/vault_password.txt"
+        mode: '0600'
+
+    - name: Execute profiles playbook
+      ansible.builtin.shell:
+        cmd: >
+          ansible-playbook -v -i "{{ hosts_list | join(',') }}," 
+          --vault-password-file=/tmp/vault_password.txt 
+          playbook.yml
+        chdir: "{{ playbook_dir }}/profiles"
+      register: playbook_output
+      ignore_errors: yes
+
+    - name: Показать вывод дочернего плейбука
+      ansible.builtin.debug:
+        var: playbook_output.stdout_lines
+
+    - name: Удалить временный файл с паролем
+      ansible.builtin.file:
+        path: "/tmp/vault_password.txt"
+        state: absent
