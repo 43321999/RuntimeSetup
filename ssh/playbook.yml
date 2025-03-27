@@ -1,0 +1,58 @@
+---
+- name: Настройка SSH и безопасности
+  hosts: all
+  become: yes
+  vars_files:
+    - vars.yml
+  
+  tasks:
+
+    - name: Настройка порта SSH
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?Port'
+        line: "Port {{ sshPort }}"
+      notify: Restart SSH
+
+    - name: Отключение аутентификации по паролю
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?PasswordAuthentication'
+        line: "PasswordAuthentication no"
+      notify: Restart SSH
+
+    - name: Запрет входа для root
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?PermitRootLogin'
+        line: "PermitRootLogin no"
+      notify: Restart SSH
+
+    - name: Разрешение доступа только определенным пользователям
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        regexp: '^#?AllowUsers'
+        line: "AllowUsers {{ allowedUsers | join(' ') }}"
+      notify: Restart SSH
+
+    - name: Создание директории .ssh для каждого пользователя
+      with_items: "{{ users }}"
+      loop_control:
+        label: "{{ item.username }}"
+      file:
+        path: "/home/{{ item.username }}/.ssh"
+        state: directory
+        mode: "{{ filePermissions.sshDirectory.mode }}"
+        owner: "{{ item.username }}"
+        group: "{{ item.username }}"
+
+    - name: Копирование публичного ключа для пользователей
+      with_items: "{{ users }}"
+      loop_control:
+        label: "{{ item.username }}"
+      copy:
+        content: "{{ idRSApub }}"
+        dest: "/home/{{ item.username }}/.ssh/authorized_keys"
+        owner: "{{ item.username }}"
+        group: "{{ item.username }}"
+        mode: '0600'
