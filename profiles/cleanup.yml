@@ -1,0 +1,31 @@
+---
+- name: Cleanup profiles setup
+  hosts: all
+  become: true
+  vars_files:
+    - vars.yml
+  tasks:
+    # Удаление пользователей
+    - name: Remove profiles users
+      ansible.builtin.user:
+        name: "{{ item.name }}"
+        state: absent
+        remove: true  # Удаляет домашние директории и файлы пользователя
+      loop: "{{ profiles }}"
+
+    # Удаление групп
+    - name: Remove profiles groups
+      ansible.builtin.group:
+        name: "{{ item.name }}"
+        state: absent
+      loop: "{{ profiles }}"
+
+    - name: Remove profile-related files
+      ansible.builtin.file:
+        path: "/path/to/profiles/{{ inventory_hostname }}"
+        state: absent
+
+    - name: Remove temporary files created by profiles
+      ansible.builtin.file:
+        path: "/tmp/{{ inventory_hostname }}_profile_temp"
+        state: absent
