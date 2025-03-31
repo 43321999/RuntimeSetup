@@ -1,0 +1,44 @@
+---
+- hosts: localhost
+  vars_files:
+    - "{{ playbook_dir }}/vars.yml"
+
+  tasks:
+    - name: Сохранить пароль для расшифровки в файл
+      ansible.builtin.copy:
+        content: "{{ password }}"
+        dest: "/tmp/vault_password.txt"
+        mode: '0600'
+
+    - name: Execute profiles cleanup playbook
+      ansible.builtin.shell:
+        cmd: >
+          ansible-playbook -v -i "{{ hosts_list | join(',') }}," 
+          --vault-password-file=/tmp/vault_password.txt 
+          "{{ playbook_dir }}/profiles/cleanup.yml"
+        chdir: "{{ playbook_dir }}/profiles"
+      register: profiles_cleanup_output
+      ignore_errors: yes
+
+    - name: Показать вывод дочернего плейбука profiles cleanup
+      ansible.builtin.debug:
+        var: profiles_cleanup_output.stdout_lines
+
+    - name: Выполнить плейбук cleanup_keys.yml
+      ansible.builtin.command:
+        cmd: >
+          ansible-playbook -v -i "{{ hosts_list | join(',') }}," 
+          --vault-password-file=/tmp/vault_password.txt 
+          "{{ playbook_dir }}/wireguard/cleanup_keys.yml"
+        chdir: "{{ playbook_dir }}/wireguard"
+      register: cleanup_keys_output
+      ignore_errors: yes
+
+    - name: Показать вывод дочернего плейбука cleanup_keys.yml
+      ansible.builtin.debug:
+        var: cleanup_keys_output.stdout_lines
+
+    - name: Удалить временный файл с паролем
+      ansible.builtin.file:
+        path: "/tmp/vault_password.txt"
+        state: absent
