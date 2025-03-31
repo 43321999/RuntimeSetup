@@ -47,7 +47,12 @@ python3 -m venv venv
 Активируйте виртуальное окружение:
 
 ```bash
+# second & other starts here:
 source venv/bin/activate
+# and finish here:
+# cd 
+ansible all -i "aa,ab,ba," -m ping
+# x
 ```
 
 Установите зависимости:
