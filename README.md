@@ -1,4 +1,5 @@
 # Парное программирование с copilot
+Настройка параллельных Swarm-окружений с Ansible для автоматизации хостов.
 >## Runtime setup:
 >- [distribution](distribution/README.md)
 >- [profiles](profiles/README.md)
@@ -187,5 +188,5 @@ Service availability is both a reputation and search optimization matter. While 
 >```
 >
 >__copilot reccomends:__
->автоматизация с использованием Ansible для настройки всех узлов
->мониторинг сети (например, избыточность Prometheus + Grafana или необходимость swarmpit)
+>
+>мониторинг сети (например, избыточность Prometheus + Grafana или необходимость __swarmpit__)
