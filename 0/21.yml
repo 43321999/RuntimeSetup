@@ -1,0 +1,17 @@
+---
+# 21.yml - Плейбук для чтения переменных из cd.yml и запуска дочернего плейбука 2/1.yml
+- name: Плейбук для отладки 2/1.yml
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  
+  vars:
+    desired_state: "{{ 'absent' if absent is defined else 'present' }}"
+  
+  vars_files:
+    - cd.yml
+
+- import_playbook: "{{ playbook_dir | dirname }}/2/1.yml"
+  vars:
+    scope: "{{ hostvars.localhost }}"
+    desired_state: "{{ hostvars.localhost.desired_state }}"

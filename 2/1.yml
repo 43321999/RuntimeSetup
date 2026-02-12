@@ -1,0 +1,40 @@
+- name: Генерация ключей по списку хостов
+  hosts: localhost
+  gather_facts: false
+  vars:
+    peers:
+      - wg-server
+      - wg-client1
+  tasks:
+    - name: Генерация приватных ключей
+      command: wg genkey
+      register: private_keys
+      loop: "{{ peers }}"
+      loop_control:
+        label: "{{ item }}"
+
+    - name: Генерация публичных ключей
+      command: bash -c "echo '{{ private_keys.results[loop.index0].stdout }}' | wg pubkey"
+      register: public_keys
+      loop: "{{ peers }}"
+      loop_control:
+        label: "{{ item }}"
+
+    - name: Сохраняем переменные через set_stats
+      set_stats:
+        data: >-
+          {{
+            dict(
+              peers | zip(
+                range(peers | length) | map('int') | list
+              ) | map('extract_keys')
+            )
+          }}
+      vars:
+        extract_keys: |
+          {{
+            {
+              item.0 + '_private': private_keys.results[item.1].stdout,
+              item.0 + '_public':  public_keys.results[item.1].stdout
+            }
+          }}

@@ -1,7 +1,7 @@
 - name: Управление профилями
   hosts: all
   vars_files:
-    - vars.yml
+    - const.yml
   tasks:
     - name: Создать профили
       ansible.builtin.user:

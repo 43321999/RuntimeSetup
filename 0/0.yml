@@ -1,0 +1,30 @@
+---
+- name: Основной плейбук управления
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  
+  vars:
+    desired_state: "{{ 'absent' if absent is defined else 'present' }}"
+  
+  vars_files:
+    - "{{ config_file | default('ci.yml') }}"
+      
+- import_playbook: "{{ playbook_dir | dirname }}/1/0.yml"
+  vars:
+    scope: "{{ hostvars.localhost }}"
+
+- import_playbook: "{{ playbook_dir | dirname }}/2/0.yml"
+  vars:
+    scope: "{{ hostvars.localhost }}"
+
+# cd 0
+
+# Использование ci.yml (по умолчанию)
+# ansible-playbook 0.yml
+
+# Использование альтернативного файла конфигурации
+#ansible-playbook 0.yml --extra-vars "const=cd.yml"
+
+# Режим absent с альтернативным файлом
+# ansible-playbook 0.yml --extra-vars "const=cd.yml absent=true"

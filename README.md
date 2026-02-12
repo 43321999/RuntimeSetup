@@ -2,9 +2,9 @@
 Настройка параллельных Swarm-окружений с Ansible для автоматизации хостов.
 >## Runtime setup:
 >- [distribution](distribution/README.md)
->- [profiles](profiles/README.md)
+>- [profiles](1_profile/README.md)
 ## Cluster setup:
-- [net](wireguard/README.md)
+- [net](2_wireguard/README.md)
 >- [mnt](mnt/README.md)
 >- [virtualization](docker/README.md)
 >- [orchestrator](swarm/README.md)

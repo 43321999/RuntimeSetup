@@ -1,0 +1,5 @@
+10:
+  profiles:
+    - name: 'd'
+      uid: 8888
+      gid: 8888

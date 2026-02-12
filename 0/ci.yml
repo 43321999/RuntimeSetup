@@ -1,0 +1,46 @@
+"0": null
+1: null
+2: null
+10:
+  profiles:
+    - name: 'c'
+      uid: 7777
+      gid: 7777
+
+20:
+  hub:
+    name: ba
+    address: "fcba::/16"
+    port: 1024
+    interface: ci
+    public_key: null
+    peers:
+      - name: aa
+        address: "fcaa::/16"
+        allowed_ips: "fcaa::/16"
+        persistent_keepalive: 25
+      - name: ab
+        address: "fcab::/16"
+        allowed_ips: "fcab::/16"
+        persistent_keepalive: 25
+
+  spoke:
+    - name: aa
+      address: "fcaa::/16"
+      interface: ci
+      public_key: null
+      peer:
+        name: ba
+        endpoint: undefined
+        allowed_ips: "fcba::/16"
+        persistent_keepalive: 25
+
+    - name: ab
+      address: "fcab::/16"
+      interface: ci
+      public_key: null
+      peer:
+        name: ba
+        endpoint: undefined
+        allowed_ips: "fcba::/16"
+        persistent_keepalive: 25
