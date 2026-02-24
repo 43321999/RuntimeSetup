@@ -13,22 +13,22 @@
         line: |
           auto ens128
           iface ens128 inet6 static
-              address fdaa::
+              address fdba::
               netmask 16
         create: yes
 
     - name: Добавление маршрутов IPv6
       command: "ip -6 route add {{ item }} dev ens128"
       with_items:
-        - "fdab::/16"
-        - "fcab::/16"
+        - "fdbb::/16"
+        - "fcbb::/16"
       ignore_errors: yes
 
     - name: Настройка NDP (таблица соседей)
       command: "ip -6 neigh add {{ item.ip }} lladdr {{ mac_address }} dev ens128 nud permanent"
       with_items:
-        - { ip: "fdab::" }
-        - { ip: "fcab::" }
+        - { ip: "fdbb::" }
+        - { ip: "fcbb::" }
       ignore_errors: yes
 
     - name: Перезапуск сети
@@ -53,7 +53,7 @@
         var: ipv6_route.stdout
 
     - name: Проверка пинга IPv4
-      shell: "ping -c 1 10.11"
+      shell: "ping -c 1 10.10"
       register: ping_ipv4
       changed_when: false
 
@@ -80,13 +80,13 @@
         line: |
           auto {{ network_interface }}
           iface {{ network_interface }} inet6 static
-              address {{ 'fdaa::' if inventory_hostname == 'aa' else 'fcaa::' }}
+              address {{ 'fdba::' if inventory_hostname == 'aa' else 'fcba::' }}
               netmask 16
         create: yes
 
     - name: Настройка маршрутов для IPv6
       shell: |
-        sudo ip -6 route add {{ 'fdab::/16' if inventory_hostname == 'aa' else 'fcab::/16' }} dev {{ network_interface }}
+        sudo ip -6 route add {{ 'fdbb::/16' if inventory_hostname == 'aa' else 'fcbb::/16' }} dev {{ network_interface }}
 
     - name: Перезапуск сети для применения изменений
       command: systemctl restart networking

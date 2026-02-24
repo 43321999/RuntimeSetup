@@ -2,7 +2,7 @@
 
 Ниже приведён пошаговый алгоритм настройки отдельного узла.
 
-#### 1. Конфигурация интерфейса (пример в ./playbook.yml)
+#### 1. Конфигурация интерфейса (vi /etc/network/interfaces или пример в ./playbook.yml)
 
 На примере узла (например, **aa**):
 
@@ -13,33 +13,33 @@
   ```sh
   auto ens128
   iface ens128 inet6 static
-      address fdaa::
+      address fdba::
       netmask 16
   ```
   Для тестовой (CI) можно использовать, например:
   ```sh
   iface ens128 inet6 static
-      address fcaa::
+      address fcba::
       netmask 16
   ```
 
 - **IPv4‑настройка:**  
-  Упрощённая схема (например, для узла **aa** — адрес 10.11) описана в отдельном документе.
+  Упрощённая схема (например, для узла **aa** — адрес 10.10) описана в отдельном документе.
 
 #### 2. Настройка маршрутов
 
 Пример добавления маршрутов для IPv6:
 ```sh
-sudo ip -6 route add fdab::/16 dev ens128
-sudo ip -6 route add fcab::/16 dev ens128
+sudo ip -6 route add fdbb::/16 dev ens128
+sudo ip -6 route add fcbb::/16 dev ens128
 ```
 
 #### 3. Настройка таблицы соседей (NDP)
 
 Эта настройка помогает поддерживать актуальность записей:
 ```sh
-sudo ip -6 neigh add fdab:: lladdr <MAC-адрес> dev ens128 nud permanent
-sudo ip -6 neigh add fcab:: lladdr <MAC-адрес> dev ens128 nud permanent
+sudo ip -6 neigh add fdbb:: lladdr <MAC-адрес> dev ens128 nud permanent
+sudo ip -6 neigh add fcbb:: lladdr <MAC-адрес> dev ens128 nud permanent
 ```
 
 #### 4. Применение изменений
