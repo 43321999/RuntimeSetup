@@ -1,0 +1,41 @@
+name: Manual Test Workflow
+
+# Триггер: ручной запуск
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Выберите окружение (dev/stage/prod)'
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - stage
+          - prod
+      debug_mode:
+        description: 'Включить отладочный режим?'
+        required: false
+        default: 'false'
+        type: boolean
+
+jobs:
+  manual-job:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Приветствие
+        run: |
+          echo "👋 Запуск воркфлоу вручную!"
+          echo "📦 Ветка: ${{ github.ref_name }}"
+          echo "⚙️ Окружение: ${{ inputs.environment }}"
+          echo "🐛 Отладка: ${{ inputs.debug_mode }}"
+      
+      - name: Имитация работы
+        run: |
+          echo "Выполняем какие-то действия для ${{ inputs.environment }}..."
+          sleep 5
+          echo "Готово!"
