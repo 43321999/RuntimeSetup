@@ -14,7 +14,7 @@ jobs:
       - name: Trigger Manual Test Workflow
         run: |
          gh api repos/43321999/RuntimeSetup/actions/workflows/manual-test.yml/dispatches \
-          -f ref=bd-setup-test-github-action-dont-forget-delet-after \
+          -f ref=bd-setup-test-github-action-dont-forget-delete-after \
           -f inputs='{"environment":"dev","debug_mode":"true"}'
             # gh workflow run manual-test.yml \
             # --repo 43321999/RuntimeSetup \
