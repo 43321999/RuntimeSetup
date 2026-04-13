@@ -1,0 +1,18 @@
+name: Trigger RuntimeSetup Workflow
+
+on:
+  workflow_dispatch:  # или другой триггер (push, schedule и т.д.)
+
+jobs:
+  trigger-external-workflow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Manual Test Workflow
+        run: |
+          gh workflow run manual-test.yml \
+            --repo 43321999/RuntimeSetup \
+            --ref bd-setup-test-github-action-dont-forget-delet-after \
+            -f environment=dev \
+            -f debug_mode=true
+        env:
+          GH_TOKEN: ${{ secrets.SSH_ACTIONS_KEY }}
