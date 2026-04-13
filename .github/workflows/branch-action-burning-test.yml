@@ -3,6 +3,10 @@ name: Trigger RuntimeSetup Workflow
 on:
   workflow_dispatch:  # или другой триггер (push, schedule и т.д.)
 
+permissions:
+  actions: write
+  contents: read
+
 jobs:
   trigger-external-workflow:
     runs-on: ubuntu-latest
